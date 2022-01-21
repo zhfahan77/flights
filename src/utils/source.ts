@@ -2,6 +2,7 @@
 import 'dotenv/config';
 
 import { httpClient } from './http';
+import { source } from '../config/config';
 import { FlightDetailSource } from '../core/flights/types';
 
 const fallbackResponse: FlightDetailSource = {
@@ -9,14 +10,14 @@ const fallbackResponse: FlightDetailSource = {
 };
 
 export const getSource1Data = async (): Promise<FlightDetailSource> => {
-    const url = `https://discovery-stub.comtravo.com/source1`;
+    const { url, auth, timeout } = source[0];
     try {
-        const response = await httpClient.get(url, {
+        const response = await httpClient.get(source[0].url, {
             auth: {
-                username: process.env.DISCOVERY_SERVICE_USERNAME || '',
-                password: process.env.DISCOVERY_SERVICE_PASSWORD || ''
+                username: auth.username || '',
+                password: auth.password || ''
             },
-            timeout: Number(process.env.DISCOVERY_SERVICE_TIMEOUT)
+            timeout: Number(timeout)
         });
         return response.data;
     } catch (error) {
@@ -27,14 +28,14 @@ export const getSource1Data = async (): Promise<FlightDetailSource> => {
 };
 
 export const getSource2Data = async (): Promise<FlightDetailSource> => {
-    const url = `https://discovery-stub.comtravo.com/source2`;
+    const { url, auth, timeout } = source[1];
     try {
         const response = await httpClient.get(url, {
             auth: {
-                username: process.env.DISCOVERY_SERVICE_USERNAME || '',
-                password: process.env.DISCOVERY_SERVICE_PASSWORD || ''
+                username: auth.username || '',
+                password: auth.password || ''
             },
-            timeout: Number(process.env.DISCOVERY_SERVICE_TIMEOUT)
+            timeout: Number(timeout)
         });
         return response.data;
     } catch (error) {
