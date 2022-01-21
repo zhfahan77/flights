@@ -1,5 +1,5 @@
 import { FlightDetails, FlightDetailSource } from './types';
-import { Repository } from '../repository/types';
+import { Repository } from '../../repository/flights/types';
 
 export const _mergeFlights = (source1: FlightDetailSource, source2: FlightDetailSource): FlightDetailSource => {
     // concat is faster than spread: https://stackoverflow.com/a/57191593

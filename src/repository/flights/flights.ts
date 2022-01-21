@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
-import { httpClient } from '../utils/http';
-import { FlightDetails, FlightDetailSource } from '../core/types';
+import { httpClient } from '../../utils/http';
+import { FlightDetails, FlightDetailSource } from '../../core/flights/types';
 
 const fallbackResponse: FlightDetailSource = {
   flights: []
