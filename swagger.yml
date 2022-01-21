@@ -1,0 +1,109 @@
+swagger: "2.0"
+info:
+  description: "This is an API server for flight service."
+  version: "1.0.0"
+  title: "Swagger doc for flight service"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+paths:
+  /api/health:
+    get:
+      tags:
+      - "check health of application"
+      description: "get health check details using this api"
+      produces:
+      - "application/json"
+      responses:
+        "404":
+          schema:
+            $ref: "#/definitions/404"
+          description: "route not found"
+        "200":
+          description: "check health"
+          schema:
+            type: object
+            properties:
+              health:
+                type: string
+        "500":
+          schema:
+            $ref: "#/definitions/500"
+          description: "Some error occurred"
+  /api/flights:
+    get:
+      tags:
+      - "get flights"
+      summary: "get flights"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "get flights"
+          schema:
+            $ref: "#/definitions/getFlights"
+        "404":
+          schema:
+            $ref: "#/definitions/404"
+          description: "route not found"
+        "500":
+          schema:
+            $ref: "#/definitions/500"
+          description: "Some error occurred while retrieving data"
+definitions:
+  404:
+    type: object
+    properties:
+      message:
+        type: string
+      status:
+        type: number
+        default: 404
+  200:
+    type: object
+    properties:
+      message:
+        type: string
+      status:
+        type: number
+        default: 200
+  500:
+    type: object
+    properties:
+      message:
+        type: string
+      status:
+        type: number
+        default: 500
+      error:
+        type: object
+  getFlights:
+    type: array  
+    items:
+      type: object
+      properties: 
+        flights:
+          type: array
+          items:
+            type: object
+            properties: 
+              slices:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    origin_name:
+                      type: string
+                    destination_name:
+                      type: string
+                    departure_date_time_utc:
+                      type: string
+                    arrival_date_time_utc:
+                      type: string
+                    flight_number:
+                      type: string
+                    duration:
+                      type: number
+              price:
+                type: number
