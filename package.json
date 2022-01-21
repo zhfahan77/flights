@@ -30,6 +30,7 @@
     "start": "node build/server.js",
     "start:prod": "yarn build && yarn start",
     "lint": "eslint --cache './src/**/*.{js,ts}' --quiet",
-    "test": "jest"
+    "test": "jest",
+    "setup:init": "cp .env.sample .env"
   }
 }
