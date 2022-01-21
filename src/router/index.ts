@@ -1,4 +1,5 @@
 import { Application } from 'express';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
@@ -21,6 +22,6 @@ export const initializeRoutes = (app: Application) => {
         swaggerUi.serve,
         swaggerUi.setup(swaggerDocument, swaggerPassedOptions)
     );
-    app.use('/api/flights', flightsRouter)
-    app.use('/api/health', healthCheckRouter)
+    app.use('/api/flights', cors(), flightsRouter)
+    app.use('/api/health', cors(), healthCheckRouter)
 };
