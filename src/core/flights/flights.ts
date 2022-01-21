@@ -10,7 +10,7 @@ export const mergeFlights = (source1: FlightDetailSource, source2: FlightDetailS
     }
 };
 
-export const generateFlightsMapHashKey = (f: Slice, s: Slice) => {
+export const generateFlightsMapHashKey = (f: Slice, s: Slice | null) => {
     if (!s) {
         return `${f.departure_date_time_utc}_${f.arrival_date_time_utc}_${f.flight_number}`;
     };
