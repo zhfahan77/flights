@@ -20,3 +20,7 @@ export interface FlightDetails {
     source1: FlightDetailSource,
     source2: FlightDetailSource
 };
+
+export interface GetFlightDetailsFromSources {
+    (): Promise<FlightDetails>
+}

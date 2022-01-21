@@ -1,4 +1,5 @@
 import { FlightDetails, FlightDetailSource } from './types';
+import { Repository } from '../repository/types';
 
 export const _mergeFlights = (source1: FlightDetailSource, source2: FlightDetailSource): FlightDetailSource => {
     // concat is faster than spread: https://stackoverflow.com/a/57191593
@@ -12,7 +13,7 @@ export const _removeDuplicateFlights = (data: FlightDetailSource): FlightDetailS
     return data
 };
 
-export const getFlights = async (repository: Record<string, Function>): Promise<FlightDetailSource> => {
+export const getFlights = async (repository: Repository): Promise<FlightDetailSource> => {
     const { getFlightDetailsFromSources } = repository;
 
     const { source1, source2 }: FlightDetails = await getFlightDetailsFromSources();
