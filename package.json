@@ -24,6 +24,7 @@
     "serve": "nodemon src/server.ts",
     "build": "tsc --project ./",
     "start": "node build/server.js",
-    "start:prod": "yarn build && yarn start"
+    "start:prod": "yarn build && yarn start",
+    "lint": "eslint --cache './src/**/*.{js,ts}' --quiet"
   }
 }
