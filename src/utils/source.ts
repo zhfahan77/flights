@@ -9,7 +9,6 @@ const fallbackResponse: FlightDetailSource = {
 };
 
 export const getSource1Data = async (): Promise<FlightDetailSource> => {
-    console.log("actual getSource1Data");
     const url = `https://discovery-stub.comtravo.com/source1`;
     try {
         const response = await httpClient.get(url, {

@@ -1,5 +1,6 @@
-import { mergeFlights, generateFlightsMapHashKey, removeDuplicateFlights } from './flights';
+import { mergeFlights, generateFlightsMapHashKey, removeDuplicateFlights, getFlights } from './flights';
 import { FlightDetailSource } from './types';
+import { Repository } from '../../repository/flights/types';
 
 describe('Merge Flights', () => {
   let source: FlightDetailSource;
@@ -185,5 +186,125 @@ describe('Remove Duplicate Flights', () => {
     }
     const uniqueFlights = removeDuplicateFlights(source);
     expect(uniqueFlights.flights.length === 1);
+  });
+});
+
+describe('Get Flights', () => {
+  let repository: Repository;
+  beforeEach(() => {
+    repository = {
+      getFlightDetailsFromSources: jest.fn().mockImplementation(() => Promise.resolve({
+        source1: {
+          flights: [
+            {
+              "slices": [
+                {
+                  "origin_name": "Schonefeld",
+                  "destination_name": "Stansted",
+                  "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+                  "flight_number": "8545",
+                  "duration": 120
+                },
+                {
+                  "origin_name": "Stansted",
+                  "destination_name": "Schonefeld",
+                  "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
+                  "flight_number": "145",
+                  "duration": 110
+                }
+              ],
+              "price": 134.81
+            }
+          ]
+        },
+        source2: {
+          flights: [
+            {
+              "slices": [
+                {
+                  "origin_name": "Schonefeld",
+                  "destination_name": "Stansted",
+                  "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+                  "flight_number": "8545",
+                  "duration": 120
+                },
+                {
+                  "origin_name": "Stansted",
+                  "destination_name": "Schonefeld",
+                  "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
+                  "flight_number": "145",
+                  "duration": 110
+                }
+              ],
+              "price": 134.81
+            }
+          ]
+        }
+      }))
+    }
+  });
+
+  it('it should return flights data', async () => {
+    const response = await getFlights(repository);
+    expect(response).toHaveProperty('flights');
+    expect(response.flights.length).toBe(1);
+  });
+
+  it('it should return flights data if only one sources flights data is there', async () => {
+    repository = {
+      getFlightDetailsFromSources: jest.fn().mockImplementation(() => Promise.resolve({
+        source1: {
+          flights: [
+            {
+              "slices": [
+                {
+                  "origin_name": "Schonefeld",
+                  "destination_name": "Stansted",
+                  "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+                  "flight_number": "8545",
+                  "duration": 120
+                },
+                {
+                  "origin_name": "Stansted",
+                  "destination_name": "Schonefeld",
+                  "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
+                  "flight_number": "145",
+                  "duration": 110
+                }
+              ],
+              "price": 134.81
+            }
+          ]
+        },
+        source2: {
+          flights: []
+        }
+      }))
+    }
+    const response = await getFlights(repository);
+    expect(response).toHaveProperty('flights');
+    expect(response.flights.length).toBe(1);
+  });
+
+  it('it should return empty flights data if not data is there', async () => {
+    repository = {
+      getFlightDetailsFromSources: jest.fn().mockImplementation(() => Promise.resolve({
+        source1: {
+          flights: []
+        },
+        source2: {
+          flights: []
+        }
+      }))
+    }
+    const response = await getFlights(repository);
+    expect(response).toHaveProperty('flights');
+    expect(response.flights.length).toBe(0);
   });
 });

@@ -19,7 +19,7 @@ export const generateFlightsMapHashKey = (f: Slice, s: Slice | null) => {
 
 export const removeDuplicateFlights = (data: FlightDetailSource): FlightDetailSource => {
     const flightsMap = new Map();
-    console.log('Total flights received: ', data.flights.length);
+    // console.log('Total flights received: ', data.flights.length);
 
     // creating a hash map, time complexity is O(N)
     data.flights.forEach((flights: Flights) => {
@@ -29,7 +29,7 @@ export const removeDuplicateFlights = (data: FlightDetailSource): FlightDetailSo
         flightsMap.set(generateFlightsMapHashKey(firstSlice, secondSlice), flights);
     });
 
-    console.log("Total number of duplicates removed: ", data.flights.length - Array.from(flightsMap.values()).length);
+    // console.log("Total number of duplicates removed: ", data.flights.length - Array.from(flightsMap.values()).length);
 
     // Map.values() returns an iterator, Array.from() iterates it over in O(N) time complexity
     return {
