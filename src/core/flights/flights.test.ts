@@ -1,4 +1,4 @@
-import { _mergeFlights } from './flights';
+import { mergeFlights } from './flights';
 import { FlightDetailSource } from './types';
 
 describe('Merge Flights', () => {
@@ -38,7 +38,7 @@ describe('Merge Flights', () => {
         ...source.flights,
       ]
     };
-    expect(_mergeFlights(source, source) === concat);
+    expect(mergeFlights(source, source) === concat);
   });
 
   it('it should merge flights even if fligts array is empty', async () => {
@@ -52,6 +52,6 @@ describe('Merge Flights', () => {
         ...source.flights,
       ]
     };
-    expect(_mergeFlights(source, source) === concat);
+    expect(mergeFlights(source, source) === concat);
   });
 });

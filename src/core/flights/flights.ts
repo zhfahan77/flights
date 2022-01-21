@@ -1,7 +1,7 @@
 import { FlightDetails, FlightDetailSource, Flights, Slice } from './types';
 import { Repository } from '../../repository/flights/types';
 
-export const _mergeFlights = (source1: FlightDetailSource, source2: FlightDetailSource): FlightDetailSource => {
+export const mergeFlights = (source1: FlightDetailSource, source2: FlightDetailSource): FlightDetailSource => {
     // concat is faster than spread: https://stackoverflow.com/a/57191593
     // time complexity is O(N)
     const merged = source1.flights.concat(source2.flights);
@@ -10,14 +10,14 @@ export const _mergeFlights = (source1: FlightDetailSource, source2: FlightDetail
     }
 };
 
-const _generateFlightsMapHashKey = (f: Slice, s: Slice) => {
+export const generateFlightsMapHashKey = (f: Slice, s: Slice) => {
     if (!s) {
         return `${f.departure_date_time_utc}_${f.arrival_date_time_utc}_${f.flight_number}`;
     };
     return `${f.departure_date_time_utc}_${f.arrival_date_time_utc}_${f.flight_number}_${s.departure_date_time_utc}_${s.arrival_date_time_utc}_${s.flight_number}`
 };
 
-export const _removeDuplicateFlights = (data: FlightDetailSource): FlightDetailSource => {
+export const removeDuplicateFlights = (data: FlightDetailSource): FlightDetailSource => {
     const flightsMap = new Map();
     console.log('Total flights received: ', data.flights.length);
 
@@ -26,7 +26,7 @@ export const _removeDuplicateFlights = (data: FlightDetailSource): FlightDetailS
         const firstSlice = flights?.slices?.[0];
         const secondSlice = flights?.slices?.[1];
         // @ts-ignore
-        flightsMap.set(_generateFlightsMapHashKey(firstSlice, secondSlice), flights);
+        flightsMap.set(generateFlightsMapHashKey(firstSlice, secondSlice), flights);
     });
 
     console.log("Total number of duplicates removed: ", data.flights.length - Array.from(flightsMap.values()).length);
@@ -41,7 +41,7 @@ export const getFlights = async (repository: Repository): Promise<FlightDetailSo
     const { getFlightDetailsFromSources } = repository;
 
     const { source1, source2 }: FlightDetails = await getFlightDetailsFromSources();
-    const flightResponse: FlightDetailSource = _removeDuplicateFlights(_mergeFlights(source1, source2))
+    const flightResponse: FlightDetailSource = removeDuplicateFlights(mergeFlights(source1, source2))
 
     return flightResponse;
 };
