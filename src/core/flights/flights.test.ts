@@ -184,7 +184,6 @@ describe('Remove Duplicate Flights', () => {
       ]
     }
     const uniqueFlights = removeDuplicateFlights(source);
-    console.log(uniqueFlights)
     expect(uniqueFlights.flights.length === 1);
   });
 });
