@@ -7,29 +7,31 @@ jest.mock('./http', () => {
     ...original,
     httpClient: {
       get: () => Promise.resolve({
-        flights: [
-          {
-            "slices": [
-              {
-                "origin_name": "Schonefeld",
-                "destination_name": "Stansted",
-                "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
-                "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
-                "flight_number": "8545",
-                "duration": 120
-              },
-              {
-                "origin_name": "Stansted",
-                "destination_name": "Schonefeld",
-                "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
-                "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
-                "flight_number": "145",
-                "duration": 110
-              }
-            ],
-            "price": 134.81
-          }
-        ]
+        data: {
+          flights: [
+            {
+              "slices": [
+                {
+                  "origin_name": "Schonefeld",
+                  "destination_name": "Stansted",
+                  "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+                  "flight_number": "8545",
+                  "duration": 120
+                },
+                {
+                  "origin_name": "Stansted",
+                  "destination_name": "Schonefeld",
+                  "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
+                  "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
+                  "flight_number": "145",
+                  "duration": 110
+                }
+              ],
+              "price": 134.81
+            }
+          ]
+        }
       })
     }
   }
