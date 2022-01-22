@@ -187,6 +187,110 @@ describe('Remove Duplicate Flights', () => {
     const uniqueFlights = removeDuplicateFlights(source);
     expect(uniqueFlights.flights.length === 1);
   });
+
+  it('it should try to identify duplicates even if flight has only one slice', () => {
+    source = {
+      flights: [
+        {
+          "slices": [
+            {
+              "origin_name": "Schonefeld",
+              "destination_name": "Stansted",
+              "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+              "flight_number": "8545",
+              "duration": 120
+            }
+          ],
+          "price": 70.10
+        }
+      ]
+    }
+    const uniqueFlights = removeDuplicateFlights(source);
+    expect(uniqueFlights.flights.length === 1);
+    expect(uniqueFlights.flights[0].slices.length === 1);
+  });
+
+  it('it should try to identify duplicates even for one way flights within round trip flights', () => {
+    source = {
+      flights: [
+        {
+          "slices": [
+            {
+              "origin_name": "Schonefeld",
+              "destination_name": "Stansted",
+              "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+              "flight_number": "8545",
+              "duration": 120
+            }
+          ],
+          "price": 70.10
+        },
+        {
+          "slices": [
+            {
+              "origin_name": "Schonefeld",
+              "destination_name": "Stansted",
+              "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+              "flight_number": "8545",
+              "duration": 120
+            },
+            {
+              "origin_name": "Stansted",
+              "destination_name": "Schonefeld",
+              "departure_date_time_utc": new Date("2019-08-10T06:50:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-10T08:40:00.000Z"),
+              "flight_number": "146",
+              "duration": 110
+            }
+          ],
+          "price": 130.10
+        }
+      ]
+    }
+    const uniqueFlights = removeDuplicateFlights(source);
+    expect(uniqueFlights.flights.length === 2);
+    expect(uniqueFlights.flights[0].slices.length === 1);
+    expect(uniqueFlights.flights[1].slices.length === 2);
+  });
+
+  it('it should try to identify duplicates for multiple duplicate one way flights', () => {
+    source = {
+      flights: [
+        {
+          "slices": [
+            {
+              "origin_name": "Schonefeld",
+              "destination_name": "Stansted",
+              "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+              "flight_number": "8545",
+              "duration": 120
+            }
+          ],
+          "price": 70.10
+        },
+        {
+          "slices": [
+            {
+              "origin_name": "Schonefeld",
+              "destination_name": "Stansted",
+              "departure_date_time_utc": new Date("2019-08-08T20:25:00.000Z"),
+              "arrival_date_time_utc": new Date("2019-08-08T22:25:00.000Z"),
+              "flight_number": "8545",
+              "duration": 120
+            }
+          ],
+          "price": 70.10
+        }
+      ]
+    }
+    const uniqueFlights = removeDuplicateFlights(source);
+    expect(uniqueFlights.flights.length === 1);
+    expect(uniqueFlights.flights[0].slices.length === 1);
+  });
 });
 
 describe('Get Flights', () => {
