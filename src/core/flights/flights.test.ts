@@ -43,7 +43,7 @@ describe('Merge Flights', () => {
     expect(mergeFlights(source, source) === concat);
   });
 
-  it('it should merge flights even if fligts array is empty', () => {
+  it('it should merge flights even if flights array is empty', () => {
     source = {
       flights: []
     }
@@ -158,7 +158,7 @@ describe('Remove Duplicate Flights', () => {
     expect(uniqueFlights.flights.length === 0);
   });
 
-  it('it should also work for single fligts array', () => {
+  it('it should also work for single flights array', () => {
     source = {
       flights: [
         {
